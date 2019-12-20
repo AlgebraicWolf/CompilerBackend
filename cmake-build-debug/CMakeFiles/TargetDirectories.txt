@@ -1,3 +1,4 @@
 /home/alexey/Programming/CompilerBackend/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/alexey/Programming/CompilerBackend/cmake-build-debug/CMakeFiles/CompilerBackend.dir
 /home/alexey/Programming/CompilerBackend/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/alexey/Programming/CompilerBackend/cmake-build-debug/CMakeFiles/Tree.dir
+/home/alexey/Programming/CompilerBackend/cmake-build-debug/CMakeFiles/CompilerBackend.dir

@@ -27,6 +27,60 @@
 					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/alexey/Programming/CompilerBackend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Tree">
+				<Option output="/home/alexey/Programming/CompilerBackend/cmake-build-debug/libTree.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/alexey/Programming/CompilerBackend/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 Tree"/>
+					<CompileFile command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="Tree/fast">
+				<Option output="/home/alexey/Programming/CompilerBackend/cmake-build-debug/libTree.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/alexey/Programming/CompilerBackend/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/x86_64-pc-linux-gnu"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/../../../../include/c++/9.2.0/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-linux-gnu/9.2.0/include-fixed"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 Tree/fast"/>
+					<CompileFile command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="CompilerBackend">
 				<Option output="/home/alexey/Programming/CompilerBackend/cmake-build-debug/CompilerBackend" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/alexey/Programming/CompilerBackend/cmake-build-debug"/>
@@ -71,19 +125,15 @@
 					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/alexey/Programming/CompilerBackend/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="make -j8 -f &quot;/home/alexey/Programming/CompilerBackend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
 		</Build>
 		<Unit filename="/home/alexey/Programming/CompilerBackend/main.cpp">
 			<Option target="CompilerBackend"/>
+		</Unit>
+		<Unit filename="/home/alexey/Programming/Tree/Tree.cpp">
+			<Option target="Tree"/>
+		</Unit>
+		<Unit filename="/home/alexey/Programming/Tree/Tree.h">
+			<Option target="Tree"/>
 		</Unit>
 		<Unit filename="/home/alexey/Programming/CompilerBackend/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>

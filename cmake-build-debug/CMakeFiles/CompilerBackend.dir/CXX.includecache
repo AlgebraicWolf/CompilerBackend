@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/alexey/Programming/CompilerBackend/main.cpp
+cstdio
+-
+cstdlib
+-
+cassert
+-
+cctype
+-
+cstring
+-
+unistd.h
+-
+../Tree/Tree.h
+/home/alexey/Programming/Tree/Tree.h
+
+/home/alexey/Programming/Tree/Tree.h
+cstdlib
+-
+cstdio
+-
+cassert
+-
+cstring
+-
+

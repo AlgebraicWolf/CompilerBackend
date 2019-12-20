@@ -1,1 +1,1 @@
-/usr/bin/g++  -g   CMakeFiles/CompilerBackend.dir/main.cpp.o  -o CompilerBackend 
+/usr/bin/g++  -g   CMakeFiles/CompilerBackend.dir/main.cpp.o  -o CompilerBackend  libTree.a 
