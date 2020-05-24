@@ -34,7 +34,9 @@ enum NODE_TYPE {
     SQRT,
     BELOW,
     ABOVE,
-    EQUAL
+    EQUAL,
+    EXPLODE,
+    RAMEXPLODE
 };
 
 struct value_t {
@@ -275,11 +277,27 @@ void WhileToASM(node_t *node, FILE *f, int *vars) {
 
     fprintf(f, "while%dcondition:\n", whileCount);
     executeExpression(condition, f, vars);
-    fprintf(f, "push 0\njae while%dend\n\n", whileCount);
+    fprintf(f, "push 0\njae while%dend\n\npop ax\npop ax\n", whileCount);
     BlockToASM(block, f, vars);
 
-    fprintf(f, "jmp while%dcondition\nwhile%dend:", whileCount, whileCount);
+    fprintf(f, "jmp while%dcondition\nwhile%dend:\npop ax\npop ax\n", whileCount, whileCount);
     whileCount++;
+}
+
+void ExplodeToASM(node_t *node, FILE *f, int *vars) {
+    assert(node);
+    assert(f);
+
+    fprintf(f, "push ax\nout\npop ax\npush bx\nout\npop bx\npush cx\nout\npop cx\npush dx\nout\npop dx\n");
+    fprintf(f, "explosive:\nout\npop ax\njmp explosive\n");
+}
+
+void ExplodeRAMToASM(node_t *node, FILE *f, int *vars) {
+    assert(node);
+    assert(f);
+
+    fprintf(f,
+            "push 0\npop ax\nramexplosive:\npush [ax+0]\nout\npop [ax+0]\npush ax\npush 1\nadd\npop ax\njmp ramexplosive\n");
 }
 
 void IfToASM(node_t *node, FILE *f, int *vars) {
@@ -299,13 +317,15 @@ void IfToASM(node_t *node, FILE *f, int *vars) {
     if (falseCase)
         fprintf(f, "push 0\njae if%dfalse\nif%dtrue:\npop ax\npop ax\n", currentCount, currentCount);
     else
-        fprintf(f, "push 0\njae if%dend\nif%dtrue:\npop ax\npop ax\n", currentCount, currentCount);
+        fprintf(f, "push 0\njae if%dclear\nif%dtrue:\npop ax\npop ax\n", currentCount, currentCount);
 
     BlockToASM(trueCase, f, vars);
 
     if (falseCase) {
         fprintf(f, "jmp if%dend\nif%dfalse:\npop ax\npop ax\n", currentCount, currentCount);
         BlockToASM(falseCase, f, vars);
+    } else {
+        fprintf(f, "jmp if%dend\nif%dclear:\npop ax\npop ax\n", currentCount, currentCount);
     }
 
     fprintf(f, "if%dend:\n", currentCount);
@@ -396,6 +416,19 @@ void ReturnToASM(node_t *node, FILE *f, int *vars) {
     }
 }
 
+void CallToASM(node_t *node, FILE *f, int *vars) {
+    assert(node);
+    assert(f);
+
+    value_t *funcData = (value_t *) node->left->value;
+
+    pushVarlist(node->right, f, vars);
+
+    fprintf(f, "push [0]\npush %d\nadd\npop [0]\n", currentVarDepth);
+    fprintf(f, "call %s\n", IDs[funcData->id]);
+    fprintf(f, "push %d\npush [0]\nsub\npop [0]\n", currentVarDepth);
+}
+
 void OpToASM(node_t *node, FILE *f, int *vars) {
     assert(node);
     assert(f);
@@ -430,6 +463,18 @@ void OpToASM(node_t *node, FILE *f, int *vars) {
 
         case RETURN:
             ReturnToASM(operationNode, f, vars);
+            break;
+
+        case CALL:
+            CallToASM(operationNode, f, vars);
+            break;
+
+        case EXPLODE:
+            ExplodeToASM(operationNode, f, vars);
+            break;
+
+        case RAMEXPLODE:
+            ExplodeRAMToASM(operationNode, f, vars);
             break;
     }
 
@@ -467,7 +512,7 @@ void addVars(node_t *node, int *vars) {
 
     value_t *val = (value_t *) node->value;
 
-    if(val->type == VARLIST && !node->right)
+    if (val->type == VARLIST && !node->right)
         return;
 
     if (val->type == VAR || val->type == VARLIST) {
@@ -507,7 +552,7 @@ void popParam(node_t *node, FILE *f, int *vars) {
 
     int *var = findVar(vars, idVal->id);
 
-    if(node->left)
+    if (node->left)
         popParam(node->left, f, vars);
 
     fprintf(f, "pop [cx+%d]\n", var - vars + 1);
@@ -518,7 +563,7 @@ void popVarlist(node_t *node, FILE *f, int *vars) {
     assert(f);
     assert(vars);
 
-    if(node->right) {
+    if (node->right) {
         fprintf(f, "pop dx\npush [0]\npop cx\n");
         popParam(node, f, vars);
         fprintf(f, "push dx\n");
@@ -625,6 +670,10 @@ NODE_TYPE getType(char *str) {
         return EQUAL;
     } else if (strcmp(str, "SQR") == 0) {
         return SQRT;
+    } else if (strcmp(str, "EXPLODE") == 0) {
+        return EXPLODE;
+    } else if (strcmp(str, "RAMEXPLODE") == 0) {
+        return RAMEXPLODE;
     } else {
         return ID;
     }
@@ -696,7 +745,7 @@ node_t *loadSubtree(char **tree) {
     if (**tree == '@') {
         (*tree)++;
         return nullptr;
-    } else if (isdigit(**tree)) {
+    } else if (isdigit(**tree) || **tree == '-') {
         int number = getNum(tree);
         val = makeValue(NUM, number);
     } else {
